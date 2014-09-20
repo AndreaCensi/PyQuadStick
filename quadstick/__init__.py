@@ -19,7 +19,7 @@ import pygame
 import pygame.locals
 from platform import platform
 import sys
-import linecache
+import traceback
 
 
 class QuadStick(object):
@@ -96,21 +96,17 @@ class QuadStick(object):
         Displays the most recent exception as an error message, and waits for ESC to quit.
         '''
         exc_type, exc_obj, tb = sys.exc_info()
-        f = tb.tb_frame
-        err_lineno = tb.tb_lineno
-        err_filename = f.f_code.co_filename
-        linecache.checkcache(err_filename)
-        err_line = linecache.getline(err_filename, err_lineno, f.f_globals)
-
 
         while True:
 
             self.screen.fill((0,0,0)) # Erase previous screen
-            self._draw_label_in_row('Exception', 0, (255,0,0))
-            self._draw_label_in_row('File: ' + err_filename, 1)
-            self._draw_label_in_row('Line: %d' % err_lineno, 2)
-            self._draw_label_in_row('Code: ' + err_line.strip(), 3)
-            self._draw_label('Hit ESC to exit', pygame.display.Info().current_h-self.row_height)
+            tb = traceback.format_exc()
+            self._draw_label_in_row('ERROR', 0, color=(255,0,0))
+            row = 1
+            for line in tb.split('\n'):
+                self._draw_label_in_row(line, row)
+                row += 1
+            self._draw_label_in_row('Hit ESC to exit', row)
 
             pygame.display.flip()
 
