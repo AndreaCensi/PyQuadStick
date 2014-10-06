@@ -19,11 +19,12 @@ You should have received a copy of the GNU Lesser General Public License
 along with this code.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from distutils.core import setup
+#from distutils.core import setup
+from setuptools import setup
 
 setup (name = 'PyQuadStick',
     version = '0.1',
-    requires = ['pygame'],
+    install_requires = ['pygame'],
     description = 'Quadrotor Flight Control in Python',
     packages = ['quadstick', 'quadstick.axial', 'quadstick.axial.game', 'quadstick.axial.rc'],
     author='Simon D. Levy',
@@ -32,3 +33,5 @@ setup (name = 'PyQuadStick',
     license='LGPL',
     platforms='Linux; Windows; OS X'
     )
+~                                                                                                                       
+~                
