@@ -23,6 +23,7 @@ from distutils.core import setup
 
 setup (name = 'PyQuadStick',
     version = '0.1',
+    requires = ['pygame'],
     description = 'Quadrotor Flight Control in Python',
     packages = ['quadstick', 'quadstick.axial', 'quadstick.axial.game', 'quadstick.axial.rc'],
     author='Simon D. Levy',
