@@ -17,6 +17,67 @@ frsky.py - Python class for polling FrSky R/C transmitters
 
 from quadstick.axial.rc import RC
 
+class Taranis(RC):
+
+    def __init__(self, jsid=0):
+        '''
+        Creates a new FrSky Taranis object.
+        '''
+
+        RC.__init__(self, 'Taranis', jsid)
+
+    # Default to Linux 
+        self.pitch_axis  = 2
+        self.roll_axis   = 1
+        self.yaw_axis    = 5
+        self.climb_axis  = 0
+        self.switch_a_axis = 3
+        self.switch_b_axis = 4
+
+        if self.platform == 'Windows':
+            self.yaw_axis    = 3
+            self.switch_axis = 5
+
+        elif self.platform == 'Darwin':
+            self.pitch_axis  = 3
+            self.roll_axis   = 2
+            self.yaw_axis    = 1
+            self.climb_axis  = 0
+            self.switch_axis = 4
+
+        self.pitch_sign = +1
+        self.roll_sign  = -1
+        self.yaw_sign   = +1
+
+    def poll(self):
+        '''
+        Polls the Taranis R/C transmitter.
+
+        Controls are Mode 2 (Left stick throttle / yaw; Right stick pitch / roll).
+
+        Altitude hold: Switch A halfway down
+        Position hold: Switch A completely down
+        Autopilot:     Switch B down (overrides altitude / position hold)
+
+        Returns demands (pitch, roll, yaw, climb) and switches (pos-hold, alt-hold, autopilot).
+        '''
+
+        return RC._poll(self)
+
+    def _get_alt_hold(self):
+
+        # POS-HOLD implies ALT-HOLD
+        return (not self._get_autopilot()) and (self._get_pos_hold() or RC._get_axis(self, self.switch_a_axis) > 0)
+
+    def _get_pos_hold(self):
+
+        return (not self._get_autopilot()) and (RC._get_axis(self, self.switch_a_axis)  > .9)
+
+    def _get_autopilot(self):
+
+        return RC._get_axis(self, self.switch_b_axis)  > 0
+
+
 class TH9X(RC):
 
     def __init__(self, jsid=0):
@@ -24,7 +85,7 @@ class TH9X(RC):
         Creates a new FrSky TH9X object.
         '''
 
-        RC.__init__(self, 'FrSky', jsid)
+        RC.__init__(self, 'TH9X', jsid)
 
     # Default to Linux 
         self.pitch_axis  = 1
@@ -50,7 +111,7 @@ class TH9X(RC):
 
     def poll(self):
         '''
-        Polls the FrSky R/C transmitter.
+        Polls the TH9X R/C transmitter.
 
         Controls are Mode 2 (Left stick throttle / yaw; Right stick pitch / roll).
 
