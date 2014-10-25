@@ -36,7 +36,8 @@ class Taranis(RC):
 
         if self.platform == 'Windows':
             self.yaw_axis    = 3
-            self.switch_axis = 5
+            self.switch_a_axis = 5
+            self.switch_b_axis = 4
 
         elif self.platform == 'Darwin':
             self.pitch_axis  = 3
