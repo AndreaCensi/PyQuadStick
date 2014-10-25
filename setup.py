@@ -33,5 +33,4 @@ setup (name = 'PyQuadStick',
     license='LGPL',
     platforms='Linux; Windows; OS X'
     )
-~                                                                                                                       
-~                
+    
