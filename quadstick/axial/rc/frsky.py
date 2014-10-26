@@ -40,11 +40,12 @@ class Taranis(RC):
             self.switch_b_axis = 4
 
         elif self.platform == 'Darwin':
-            self.pitch_axis  = 3
-            self.roll_axis   = 2
+            self.pitch_axis  = 0
+            self.roll_axis   = 3
             self.yaw_axis    = 1
-            self.climb_axis  = 0
-            self.switch_axis = 4
+            self.climb_axis  = 2
+            self.switch_a_axis = 4
+            self.switch_b_axis = 5
 
         self.pitch_sign = +1
         self.roll_sign  = -1
