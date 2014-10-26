@@ -21,7 +21,8 @@ class Taranis(RC):
 
     def __init__(self, jsid=0):
         '''
-        Creates a new FrSky Taranis object.  You should set up channel mixing such that Channel 5 maps to Switch A and Channel 6 to Switch B.
+        Creates a new FrSky Taranis object.  You should set up channel mixing such that Channel 5 maps to Switch A 
+        and Channel 6 to Switch B.
         '''
 
         RC.__init__(self, 'Taranis', jsid)
