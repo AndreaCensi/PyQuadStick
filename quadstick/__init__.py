@@ -39,6 +39,9 @@ class QuadStick(object):
 
         pygame.display.set_caption('QuadStick: ' + name)
 
+        # Supports keyboard polling
+        self.keys = []
+
         # Supports autopilot toggling for non-R/C controllers
         self.auto    = False
         self.toggled = False
@@ -78,7 +81,9 @@ class QuadStick(object):
         ESC.
         '''
 
-        for event in pygame.event.get():
+        self.keys = pygame.event.get()
+
+        for event in self.keys:
 
             if event.type == pygame.locals.QUIT:
                 return False
