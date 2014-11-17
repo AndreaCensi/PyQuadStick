@@ -32,8 +32,6 @@ class Keyboard(QuadStick):
         self.yaw = 0
         self.climb = 0
 
-        self.keys = []
-
     def poll(self):
         '''
         Polls the keyboard, using the numeric keypad and spacebar:
@@ -49,11 +47,6 @@ class Keyboard(QuadStick):
 
         Returns demands (pitch, roll, yaw, climb) and switches (pos-hold, alt-hold, autopilot).
         '''
-
-        try:
-            self.keys = pygame.event.get()
-        except:
-            return None, None
 
         for event in self.keys:
 
