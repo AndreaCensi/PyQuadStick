@@ -52,6 +52,8 @@ class QuadStick(object):
 
         self.row_height = 30
 
+        self.paused = False
+
     def __str__(self):
         '''
         Returns a string representation of this QuadStick object
@@ -95,29 +97,48 @@ class QuadStick(object):
                 return False
 
         return True
+
+    def clear(self):
+        '''
+        Clears the display.
+        '''
+        self.screen.fill((0,0,0))
  
     def error(self):
         '''
         Displays the most recent exception as an error message, and waits for ESC to quit.
         '''
-        exc_type, exc_obj, tb = sys.exc_info()
-
         while True:
 
-            self.screen.fill((0,0,0)) # Erase previous screen
+            self.clear()
             tb = traceback.format_exc()
             self._draw_label_in_row('ERROR', 0, color=(255,0,0))
-            row = 1
-            for line in tb.split('\n'):
-                self._draw_label_in_row(line, row)
-                row += 1
-            self._draw_label_in_row('Hit ESC to exit', row)
+
+            self._display(tb)
 
             pygame.display.flip()
 
             if not self.running():
                 pygame.quit()
                 sys.exit()
+
+    def message(self, msg):
+        '''
+        Displays a message.
+        '''
+        self.clear()
+
+        self._display(msg)
+
+    def _display(self, msg):
+
+        row = 1
+        for line in msg.split('\n'):
+            self._draw_label_in_row(line, row)
+            row += 1
+
+        pygame.display.flip()
+
 
     def _show_switch(self, switchval, index, label):
 

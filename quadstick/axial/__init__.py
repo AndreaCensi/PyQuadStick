@@ -33,13 +33,18 @@ class Axial(QuadStick):
         self.joystick.init()
         self.joystick.get_axis(jsid)
 
+    def _pump(self):
+
+        pygame.event.pump()   
+
+
     def _poll(self):
         '''
         Polls the Axial object, returning demands (pitch, roll, yaw, climb) and
         switches (pos-hold, alt-hold, autopilot).
         '''
 
-        pygame.event.pump()   
+        Axial._pump(self)   
 
         demands = self._get_pitch(), self._get_roll(), self._get_yaw(), self._get_climb()
 

@@ -17,6 +17,8 @@ logitech.py - Python class for Logitech joysticks
 
 from quadstick.axial.game import Game
 
+import time
+
 class ExtremePro3D(Game):
 
     def __init__(self, jsid=0):
@@ -29,6 +31,24 @@ class ExtremePro3D(Game):
 
         self.yaw_axis = 3 if self.platform == 'Windows' else 2
 
+        self.message('Please move throttle to mid-range\nto begin.')
+
+        while True:
+            if self._get_axis3() != 0:
+                break
+
+        while True:
+            if abs(self._get_axis3()) < .05:
+                break
+
+        self.clear()
+
+    def _get_axis3(self):
+
+        Game._pump(self)   
+        return self.joystick.get_axis(3) 
+ 
+
     def poll(self):
         '''
         Polls the Logitech joystick:
@@ -36,7 +56,7 @@ class ExtremePro3D(Game):
           Foward/back      : Pitch
           Side-to-side     : Roll
           Twist:           : Yaw
-          Hat forward/back : Climb/descend
+          Throttle         : Climb/descend
           Trigger:         : Toggle autopilot
 
         Altitude and position hold are always on.
@@ -60,7 +80,7 @@ class ExtremePro3D(Game):
 
     def _get_climb(self):
 
-        return self.joystick.get_hat(0)[1]
+        return -self._get_axis3()
 
     def _get_autopilot(self):
 
